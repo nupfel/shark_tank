@@ -29,7 +29,7 @@ my $yada     = YADA->new(
 );
 my $sc = Store::CouchDB->new(
     db    => 'realestate_agents',
-    debug => 1,
+    debug => 0,
 );
 
 sub filter_date {
@@ -227,7 +227,8 @@ $monitor->watch({
                             # complaints history fields
                             process
                                 '#ContentContainer_MainContent_NoDisciplinaryHistory',
-                                disciplinary_history => ['text', sub { s/^\s+|\s+$//g } ];
+                                disciplinary_history =>
+                                [ 'text', sub { s/^\s+|\s+$//g } ];
                         };
 
                         # Employ amazing Perl (en|de)coding powers to handle HTML charsets
@@ -238,10 +239,13 @@ $monitor->watch({
                         # store in couchdb
                         $doc->{_id}       = $doc->{licence_number};
                         $doc->{reaa_link} = $self->final_url->as_string;
+
                         # delete empty keys
                         map { delete $doc->{$_} unless $doc->{$_} } keys %$doc;
-                        my @res = $sc->put_doc({ doc => $doc });
-                        p @res;
+                        my @res;
+                        eval { @res = $sc->put_doc({ doc => $doc }) };
+                        my $error = $@;
+                        say "ERROR: $error";
                     })->wait;
             },
         },
