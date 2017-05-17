@@ -229,6 +229,8 @@ $monitor->watch({
                         # store in couchdb
                         $doc->{_id}       = $doc->{licence_number};
                         $doc->{reaa_link} = $self->final_url->as_string;
+                        # delete empty keys
+                        map { delete $doc->{$_} unless $doc->{$_} } keys %$doc;
                         my @res = $sc->put_doc({ doc => $doc });
                         p @res;
                     })->wait;
