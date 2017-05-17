@@ -47,6 +47,8 @@ open(my $fh, '<:encoding(UTF-8)', $filename)
 while ($city = <$fh>) {
     chomp $city;
 
+    next if (-d './links' and -f "./links/$city");
+
     # wait for free worker port for phantomJS
     $pm->wait_for_available_procs;
     my $port;
