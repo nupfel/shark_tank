@@ -128,6 +128,7 @@ sub run {
         $self->dump_links(@links);
     };
     my $error = $@;
+    chomp($error);
     $self->cprint("ERROR : $error") if $error;
     $self->dump_links($error);
 }
