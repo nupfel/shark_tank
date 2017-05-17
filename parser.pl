@@ -231,6 +231,14 @@ $monitor->watch({
                                 '#ContentContainer_MainContent_NoDisciplinaryHistory',
                                 disciplinary_history =>
                                 [ 'text', sub { s/^\s+|\s+$//g } ];
+                            process
+                                '#ContentContainer_MainContent_SuspendedVoluntarilyText',
+                                licence_status =>
+                                [ 'text', sub { 'suspended voluntarily' } ];
+                            process
+                                '#ContentContainer_MainContent_SuspendedDirectiveText',
+                                licence_status =>
+                                [ 'text', sub { 'suspended' } ];
                         };
 
                         # Employ amazing Perl (en|de)coding powers to handle HTML charsets
