@@ -107,6 +107,7 @@ sub run {
                     ? $total % $self->rpp
                     : $self->rpp;
                 while ($matches != $remaining) {
+                    sleep 2;
                     $self->cprint("$matches : $remaining");
                     $self->cprint("reload page $p");
                     $mech->eval(
