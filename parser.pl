@@ -97,8 +97,10 @@ $monitor->watch({
 
                 open(my $fh, "<:encoding(UTF-8)", $name)
                     or die "Could not open $name: $!";
-                my @links = <$fh>;
+                my @links = grep { /^https:/ } <$fh>;
                 close($fh);
+
+                return unless @links;
 
                 my $city = basename($name);
                 make_path("./raw/$city") unless (-d "./raw/$city");
