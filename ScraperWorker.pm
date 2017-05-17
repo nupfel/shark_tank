@@ -129,8 +129,10 @@ sub run {
     };
     my $error = $@;
     chomp($error);
-    $self->cprint("ERROR : $error") if $error;
-    $self->dump_links($error);
+    if ($error) {
+        $self->cprint("ERROR : $error");
+        $self->dump_links($error);
+    }
 }
 
 1;
