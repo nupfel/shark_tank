@@ -119,8 +119,9 @@ sub run {
                 $self->cprint("gather links on page $p/$pages");
                 push(@links,
                     map { $base . decode_entities($_) }
-                    $mech->content =~
-                    m/ContentContainer_MainContent_ResultsGridView_\w+NameLabel_\d+"><a href="([^"]+)"/g);
+                        $mech->content =~
+                        m/ContentContainer_MainContent_ResultsGridView_\w+NameLabel_\d+"><a href="([^"]+)"/g
+                );
                 $self->cprint("link count: " . @links . "/$total");
             }
         }
