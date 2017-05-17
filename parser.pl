@@ -44,12 +44,21 @@ sub filter_date_period {
 sub filter_address {
     my @lines = split(m[\s*<br/>\s*], shift);
     my ($city, $pcode) = $lines[-1] =~ m/^(.*)\s+(\d+)$/;
+
+    # trim
+    $city =~ s/^\s+|\s+$//g;
+    $pcode =~ s/^\s+|\s+$//g;
+    $lines[0] =~ s/^\s+|\s+$//g;
+
     my $address = {
         street => $lines[0],
         city   => $city,
         pcode  => $pcode,
     };
-    $address->{suburb} = $lines[1] if (scalar @lines > 2);
+    if (scalar @lines > 2) {
+        $lines[1] =~ s/^\s+|\s+$//g;
+        $address->{suburb} = $lines[1];
+    }
     return $address;
 }
 
