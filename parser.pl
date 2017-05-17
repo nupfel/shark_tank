@@ -244,10 +244,8 @@ $monitor->watch({
 
                         # delete empty keys
                         map { delete $doc->{$_} unless $doc->{$_} } keys %$doc;
-                        my @res;
-                        eval { @res = $sc->put_doc({ doc => $doc }) };
-                        my $error = $@;
-                        say "ERROR: $error";
+                        my @res = $sc->put_doc({ doc => $doc });
+                        say "ERROR: " . $sc->error if $sc->has_error;
                     })->wait;
             },
         },
